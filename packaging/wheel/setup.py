@@ -27,11 +27,11 @@ def get_version_from_file():
 
 def binary_exists(name):
     """Check whether `name` is on PATH."""
-    from distutils.spawn import find_executable
+    from setuptools._distutils.spawn import find_executable
     return find_executable(name) is not None
 
 def check_cmake3(path):
-    from distutils.spawn import find_executable
+    from setuptools._distutils.spawn import find_executable
     args = (path, "--version")
     popen = subprocess.Popen(args, stdout=subprocess.PIPE)
     popen.wait()
@@ -42,7 +42,7 @@ def check_cmake3(path):
 
 def cmake_exists():
     """Check whether CMAKE is on PATH."""
-    from distutils.spawn import find_executable
+    from setuptools._distutils.spawn import find_executable
     path = find_executable('cmake')
     if path is not None:
         if check_cmake3(path): return True, path
@@ -78,7 +78,7 @@ def has_cxx14():
 
 # def python_dependency_name( py_version_short, py_version_nodot ):
 #     """ find the name of python dependency """
-#     from distutils.spawn import find_executable
+#     from setuptools._distutils.spawn import find_executable
 #     # this is the path to default python
 #     path = find_executable( 'python' )
 #     from os.path import realpath
