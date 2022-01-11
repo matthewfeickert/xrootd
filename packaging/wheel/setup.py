@@ -5,7 +5,6 @@ from wheel.bdist_wheel import bdist_wheel
 
 import subprocess
 import sys
-import getpass
 
 def get_version():
     version = subprocess.check_output(['./genversion.sh', '--print-only'])
