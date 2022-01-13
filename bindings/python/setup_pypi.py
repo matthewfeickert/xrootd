@@ -1,6 +1,6 @@
 from setuptools import setup
 from setuptools import Extension
-import sysconfig
+from distutils import sysconfig
 from os import getenv, walk, path, path, getcwd, chdir
 from platform import system
 
