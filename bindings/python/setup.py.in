@@ -1,15 +1,9 @@
 from __future__ import print_function
 
 from distutils.core import setup, Extension
+from distutils import sysconfig
 from os import getenv, walk, path
 import subprocess
-
-# centos7's python3-setuptools ships setuptools v39.2.0
-# and setuptools._distutils was added in setuptools v48.0.0
-try:
-    from setuptools._distutils import sysconfig
-except ImportError:
-    from distutils import sysconfig
 
 # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
 cfg_vars = sysconfig.get_config_vars()
