@@ -21,4 +21,19 @@ if [ "$res" -ne "0" ]; then
     exit 1
 fi
 
-python3 setup.py sdist
+# Determine if build is available
+python3 -c 'import build' &> /dev/null
+build_available=$?
+if [ "${build_available}" -ne "0" ]; then
+    python3 -m pip install build
+    res=$?
+fi
+unset build_available
+
+if [ "$res" -ne "0" ]; then
+    echo "WARNING: Unable to find build and unable to install build from PyPI with '$(command -v python3) -m pip install build'."
+    echo "         Falling back to building sdist with '$(command -v python3) setup.py sdist'."
+    python3 setup.py sdist
+else
+    python3 -m build --sdist .
+fi
