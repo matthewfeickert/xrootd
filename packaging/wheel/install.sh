@@ -50,13 +50,13 @@ fi
 cd ../bindings/python
 
 # Determine if setuptools._distutils is available for a modern Python package install
-"${6}" -c 'import setuptools._distutils'  # $6 holds the python sys.executable
+${6} -c 'import setuptools._distutils' &> /dev/null  # $6 holds the python sys.executable
 setuptools_distutils_available=$?
 if [ "${setuptools_distutils_available}" -ne "0" ]; then
-    "${6}" setup.py install "${3}"
+    ${6} setup.py install ${3}
     res=$?
 else
-    "${6}" -m pip install "${3}" .
+    ${6} -m pip install ${3} .
     res=$?
 fi
 unset setuptools_distutils_available
