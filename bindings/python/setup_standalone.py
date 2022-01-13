@@ -1,6 +1,6 @@
 from __future__ import print_function
 from setuptools import setup
-from distutils.core import Extension
+from setuptools import Extension
 from distutils import sysconfig
 from os import getenv, walk, path, path, getcwd, chdir
 import sys
