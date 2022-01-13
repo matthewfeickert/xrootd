@@ -1,7 +1,7 @@
 from __future__ import print_function
 from setuptools import setup
 from setuptools import Extension
-from distutils import sysconfig
+import sysconfig
 from os import getenv, walk, path, path, getcwd, chdir
 import sys
 import subprocess
