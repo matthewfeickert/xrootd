@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 from distutils.core import setup, Extension
-import sysconfig
+from distutils import sysconfig
 from os import getenv, walk, path
 import subprocess
 
