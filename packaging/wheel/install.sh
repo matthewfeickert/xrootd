@@ -48,8 +48,19 @@ if [ "$res" -ne "0" ]; then
 fi
 
 cd ../bindings/python
-$6 setup.py install $3 # $6 holds the python sys.executable
-res=$?
+
+# Determine if setuptools is available for a modern Python package install
+"${6}" -c 'import setuptools'  # $6 holds the python sys.executable
+setuptools_available=$?
+if [ "${setuptools_available}" -ne "0" ]; then
+    "${6}" setup.py install "${3}"
+    res=$?
+else
+    "${6}" -m pip install "${3}" .
+    res=$?
+fi
+unset setuptools_available
+
 if [ "$res" -ne "0" ]; then
     exit 1
 fi
