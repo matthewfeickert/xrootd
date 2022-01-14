@@ -80,37 +80,6 @@ if ( NOT ${VALID_PIP_EXIT_CODE} EQUAL 0 )
   )
 
 else()
-  # Update pip to the latest release
-  execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install --upgrade pip)
-
-  # Ensure that setuptools and wheel exist
-  execute_process(
-          COMMAND ${PYTHON_EXECUTABLE} -c "import setuptools"
-          RESULT_VARIABLE VALID_SETUPTOOLS_EXIT_CODE
-          OUTPUT_QUIET
-  )
-  if ( NOT ${VALID_SETUPTOOLS_EXIT_CODE} EQUAL 0 )
-    message(WARNING
-          " ${PYTHON_EXECUTABLE} does not have setuptools installed."
-          " Attempting to install setuptools from PyPI with"
-          " `${PYTHON_EXECUTABLE} -m pip install setuptools`."
-          )
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install setuptools)
-  endif()
-  execute_process(
-          COMMAND ${PYTHON_EXECUTABLE} -c "import wheel"
-          RESULT_VARIABLE VALID_WHEEL_EXIT_CODE
-          OUTPUT_QUIET
-  )
-  if ( NOT ${VALID_WHEEL_EXIT_CODE} EQUAL 0 )
-    message(WARNING
-          " ${PYTHON_EXECUTABLE} does not have wheel installed."
-          " Attempting to install wheel from PyPI with"
-          " `${PYTHON_EXECUTABLE} -m pip install wheel`."
-          )
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -m pip install wheel)
-  endif()
-
   # Use --force-reinstall to ensure a clean install if a rebuild needs to happen
   install(
     CODE
