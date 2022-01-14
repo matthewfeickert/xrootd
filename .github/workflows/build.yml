@@ -158,6 +158,66 @@ jobs:
         python3 -c 'import pyxrootd; print(pyxrootd)'
         python3 -c 'from XRootD import client; print(client.FileSystem("root://someserver:1094"))'
 
+  cmake-bullseye-updated-python:
+
+    runs-on: ubuntu-latest
+    container: debian:bullseye
+
+    steps:
+    - name: Install external dependencies with apt
+      run: |
+        apt update -y
+        apt install -y \
+          g++ \
+          git \
+          cmake \
+          uuid-dev
+          dpkg-dev \
+          libssl-dev \
+          libx11-dev \
+          python3 \
+          python3-pip \
+          python3-venv \
+          python3-dev
+        apt autoclean -y
+        python3 -m pip --no-cache-dir install --upgrade pip setuptools wheel
+
+    # Can use v2 of action as image Git is newer than 2.18
+    - name: Clone repository now that Git is available
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Build with cmake
+      run: |
+        cd ..
+        cmake \
+            -DCMAKE_INSTALL_PREFIX=/usr/local/ \
+            -DPYTHON_EXECUTABLE=$(command -v python3) \
+            -DENABLE_TESTS=ON \
+            -S xrootd \
+            -B build
+        cmake build -LH
+        cmake \
+            --build build \
+            --clean-first \
+            --parallel $(($(nproc) - 1))
+        cmake --build build --target install
+        python3 -m pip list
+
+    - name: Verify install
+      run: |
+        command -v xrootd
+        command -v xrdcp
+
+    - name: Verify Python bindings
+      run: |
+        python3 -m pip list
+        python3 -m pip show xrootd
+        python3 -c 'import XRootD; print(XRootD)'
+        python3 -c 'import pyxrootd; print(pyxrootd)'
+        python3 -c 'from XRootD import client; print(client.FileSystem("root://someserver:1094"))'
+
   rpm-centos7:
 
     runs-on: ubuntu-latest
