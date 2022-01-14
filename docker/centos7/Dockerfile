@@ -29,6 +29,7 @@ RUN source scl_source enable devtoolset-7 && \
         -DCMAKE_INSTALL_PREFIX=/usr/local/ \
         -DPYTHON_EXECUTABLE=$(command -v python3) \
         -DENABLE_TESTS=ON \
+        -DPIP_VERBOSE=ON \
         -S xrootd \
         -B build && \
     cmake3 build -LH && \

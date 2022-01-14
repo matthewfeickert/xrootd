@@ -32,11 +32,18 @@ endif()
 
 configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
+if( PIP_VERBOSE )
+  set(PIP_INSTALL_VERBOSE_FLAG "--verbose")
+else()
+  set(PIP_INSTALL_VERBOSE_FLAG "")
+endif()
+
 # Use --force-reinstall to ensure a clean install if a rebuild needs to happen
 install(
   CODE
   "EXECUTE_PROCESS(
     COMMAND ${PYTHON_EXECUTABLE} -m pip install \
+              ${PIP_INSTALL_VERBOSE_FLAG} \
               --force-reinstall \
               --prefix \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX} \
               ${CMAKE_CURRENT_BINARY_DIR}
