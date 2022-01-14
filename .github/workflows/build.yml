@@ -292,6 +292,66 @@ jobs:
         python3 -c 'import pyxrootd; print(pyxrootd)'
         python3 -c 'from XRootD import client; print(client.FileSystem("root://someserver:1094"))'
 
+  dpkg-bullseye:
+
+    runs-on: ubuntu-latest
+    container: debian:bullseye
+
+    steps:
+    - name: Install external dependencies with apt-get
+      run: |
+        apt-get update -y
+        apt-get install -y \
+          g++ \
+          git \
+          cmake \
+          debhelper \
+          devscripts \
+          equivs \
+          gdebi-core
+        apt-get autoclean -y
+
+    # Can use v2 of action as image Git is newer than 2.18
+    - name: Clone repository now that Git is available
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Build .deb
+      run: |
+        cp -R packaging/debian/ .
+        mk-build-deps --build-dep debian/control
+        gdebi -n xrootd-build-deps-depends*.deb
+        version=`./genversion.sh --print-only`
+        dch --create -v `echo $version | sed 's/^v\(.*\)/\1/'` --package xrootd --urgency low --distribution ${DIST} -M "This package is built and released automatically. For important notices and releases subscribe to our maling lists or visit our website."
+        dpkg_version=`dpkg-query --showformat='${Version}' --show dpkg`
+        rc=0 ; dpkg --compare-versions $dpkg_version "ge" "1.18.11" || rc=$?
+        if [ $rc -eq "0" ]; then
+          dpkg-buildpackage -b -us -uc -tc --buildinfo-option="-udeb_packages" --changes-option="-udeb_packages" ;
+        else
+          dpkg-buildpackage -b -us -uc -tc --changes-option="-udeb_packages" ;
+        fi
+
+    - name: Install
+      run: |
+        ls -lh deb_packages/*.deb
+        apt-get install -y \
+          deb_packages/xrootd-client*.deb \
+          deb_packages/python3-xrootd*.deb
+
+    - name: Verify install
+      run: |
+        command -v xrootd
+        command -v xrdcp
+
+    - name: Verify Python bindings
+      run: |
+        python3 -m pip list
+        python3 -m pip show xrootd
+        python3 -c 'import XRootD; print(XRootD)'
+        python3 -c 'import pyxrootd; print(pyxrootd)'
+        python3 -c 'from XRootD import client; print(client.FileSystem("root://someserver:1094"))'
+
   sdist-centos7:
 
     runs-on: ubuntu-latest
