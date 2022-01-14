@@ -171,7 +171,7 @@ jobs:
           g++ \
           git \
           cmake \
-          uuid-dev
+          uuid-dev \
           dpkg-dev \
           libssl-dev \
           libx11-dev \
@@ -212,6 +212,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        export LD_LIBRARY_PATH=/usr/local/lib/
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'

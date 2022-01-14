@@ -11,3 +11,8 @@ centos7:
 	docker build . \
 		--file docker/centos7/Dockerfile \
 		--tag xrootd/xrootd:centos7
+
+debian:
+	docker build . \
+		--file docker/debian/Dockerfile \
+		--tag xrootd/xrootd:debian

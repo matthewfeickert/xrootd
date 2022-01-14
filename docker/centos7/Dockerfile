@@ -24,29 +24,29 @@ RUN yum update -y && \
 COPY . /code/xrootd
 
 WORKDIR /code
-# RUN source scl_source enable devtoolset-7 && \
-#     cmake3 \
-#         -DCMAKE_INSTALL_PREFIX=/usr/local/ \
-#         -DPYTHON_EXECUTABLE=$(command -v python3) \
-#         -DENABLE_TESTS=ON \
-#         -S xrootd \
-#         -B build && \
-#     cmake3 build -LH && \
-#     cmake3 \
-#         --build build \
-#         --clean-first \
-#         --parallel $(($(nproc) - 1)) && \
-#     cmake3 --build build --target install && \
-#     cd / && \
-#     python3 -m pip list
-
-WORKDIR /code/xrootd
 RUN source scl_source enable devtoolset-7 && \
-    cp packaging/wheel/* . && \
-    ./publish.sh && \
-    python3 -m pip --verbose install dist/xrootd-*.tar.gz && \
+    cmake3 \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/ \
+        -DPYTHON_EXECUTABLE=$(command -v python3) \
+        -DENABLE_TESTS=ON \
+        -S xrootd \
+        -B build && \
+    cmake3 build -LH && \
+    cmake3 \
+        --build build \
+        --clean-first \
+        --parallel $(($(nproc) - 1)) && \
+    cmake3 --build build --target install && \
+    cd / && \
     python3 -m pip list
-WORKDIR /
+
+# WORKDIR /code/xrootd
+# RUN source scl_source enable devtoolset-7 && \
+#     cp packaging/wheel/* . && \
+#     ./publish.sh && \
+#     python3 -m pip --verbose install dist/xrootd-*.tar.gz && \
+#     python3 -m pip list
+# WORKDIR /
 
 RUN python3 -m pip list && \
     python3 -m pip show xrootd && \
