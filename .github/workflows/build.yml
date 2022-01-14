@@ -336,8 +336,13 @@ jobs:
       run: |
         ls -lh deb_packages/*.deb
         apt-get install -y \
-          deb_packages/xrootd-client*.deb \
-          deb_packages/python3-xrootd*.deb
+          ./deb_packages/libxr*_*.deb \
+          ./deb_packages/xrootd-libs_*.deb \
+          ./deb_packages/xrootd-client*_*.deb \
+          ./deb_packages/xrootd-devel_*.deb \
+          ./deb_packages/xrootd-plugins_*.deb \
+          ./deb_packages/xrootd-server*_*.deb \
+          ./deb_packages/python3-xrootd_*.deb
 
     - name: Verify install
       run: |
