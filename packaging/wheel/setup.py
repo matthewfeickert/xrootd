@@ -3,12 +3,12 @@ from setuptools.command.install import install
 from setuptools.command.sdist import sdist
 from wheel.bdist_wheel import bdist_wheel
 
-# centos7's python3-setuptools ships setuptools v39.2.0
-# and setuptools._distutils was added in setuptools v48.0.0
+# shutil.which was added in Python 3.3
+# c.f. https://docs.python.org/3/library/shutil.html#shutil.which
 try:
-    from setuptools._distutils.spawn import find_executable
+    from shutil import which
 except ImportError:
-    from distutils.spawn import find_executable
+    from distutils.spawn import find_executable as which
 
 import subprocess
 import sys
@@ -33,7 +33,7 @@ def get_version_from_file():
 
 def binary_exists(name):
     """Check whether `name` is on PATH."""
-    return find_executable(name) is not None
+    return which(name) is not None
 
 def check_cmake3(path):
     args = (path, "--version")
@@ -46,11 +46,11 @@ def check_cmake3(path):
 
 def cmake_exists():
     """Check whether CMAKE is on PATH."""
-    path = find_executable('cmake')
+    path = which('cmake')
     if path is not None:
         if check_cmake3(path): return True, path
-    path = find_executable('cmake3')
-    return path is not None, path 
+    path = which('cmake3')
+    return path is not None, path
 
 def is_rhel7():
     """check if we are running on rhel7 platform"""
@@ -82,7 +82,7 @@ def has_cxx14():
 # def python_dependency_name( py_version_short, py_version_nodot ):
 #     """ find the name of python dependency """
 #     # this is the path to default python
-#     path = find_executable( 'python' )
+#     path = which( 'python' )
 #     from os.path import realpath
 #     # this is the real default python after resolving symlinks
 #     real = realpath(path)
