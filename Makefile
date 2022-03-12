@@ -12,6 +12,12 @@ centos7:
 		--build-arg BASE_IMAGE=gitlab-registry.cern.ch/linuxsupport/cc7-base:latest \
 		--tag xrootd/xrootd:centos7
 
+centos7-rpm:
+	docker build . \
+		--file docker/centos7_rpm/Dockerfile \
+		--build-arg BASE_IMAGE=gitlab-registry.cern.ch/linuxsupport/cc7-base:latest \
+		--tag xrootd/xrootd:centos7-rpm
+
 debian_bullseye:
 	docker build . \
 		--file docker/debian/Dockerfile \
