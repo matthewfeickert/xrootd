@@ -37,7 +37,7 @@ RUN cmake \
         -DCMAKE_INSTALL_PREFIX=/usr/local \
         -DPYTHON_EXECUTABLE=$(command -v python3) \
         -DENABLE_TESTS=ON \
-        -DPIP_VERBOSE=ON \
+        -DPIP_OPTIONS="--verbose" \
         -S xrootd \
         -B build && \
     cmake build -LH && \
