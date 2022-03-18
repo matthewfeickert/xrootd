@@ -27,6 +27,7 @@ WORKDIR /code
 RUN source scl_source enable devtoolset-7 && \
     cmake3 \
         -DCMAKE_INSTALL_PREFIX=/usr/local/ \
+        -DCMAKE_CXX_STANDARD=17 \
         -DPYTHON_EXECUTABLE=$(command -v python3) \
         -DENABLE_TESTS=ON \
         -DPIP_OPTIONS="--verbose" \
