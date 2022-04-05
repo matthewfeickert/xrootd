@@ -23,3 +23,26 @@ debian_bullseye:
 		--file docker/debian/Dockerfile \
 		--build-arg BASE_IMAGE=debian:bullseye \
 		--tag xrootd/xrootd:debian
+
+debian_pypi:
+	docker pull debian:bullseye
+	docker build . \
+		--file docker/debian-pypi/Dockerfile \
+		--build-arg BASE_IMAGE=debian:bullseye \
+		--tag xrootd/xrootd:debian-pypi \
+		--tag xrootd/xrootd:issue-1668
+
+ubuntu_pypi:
+	docker pull ubuntu:20.04
+	docker build . \
+		--file docker/ubuntu/Dockerfile \
+		--build-arg BASE_IMAGE=ubuntu:20.04 \
+		--tag xrootd/xrootd:ubuntu-pypi \
+		--tag xrootd/xrootd:issue-1668
+
+centos7-pypi:
+	docker pull gitlab-registry.cern.ch/linuxsupport/cc7-base:latest
+	docker build . \
+		--file docker/centos7-pypi/Dockerfile \
+		--build-arg BASE_IMAGE=gitlab-registry.cern.ch/linuxsupport/cc7-base:latest \
+		--tag xrootd/xrootd:issue-1668-centos
