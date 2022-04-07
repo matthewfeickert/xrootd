@@ -686,6 +686,8 @@ jobs:
         python3 -m pip list
 
     - name: Verify Python bindings
+      env:
+        LD_LIBRARY_PATH: /usr/local/lib/python3.8/site-packages/pyxrootd/lib
       run: |
         echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
         python3 -m pip list
@@ -749,8 +751,9 @@ jobs:
         python3 -m pip list
 
     - name: Verify Python bindings
+      env:
+        LD_LIBRARY_PATH: /home/runner/work/xrootd/venv/lib/python3.8/site-packages/pyxrootd/lib
       run: |
-        export LD_LIBRARY_PATH="$(readlink -f ../venv/)/lib/python3.8/site-packages/pyxrootd/lib:${LD_LIBRARY_PATH}"
         echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
         . ../venv/bin/activate
         command -v python
@@ -762,7 +765,6 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
         find $(find ../venv -type d -iname "site-packages") \
           -maxdepth 1 \
           -type d \
