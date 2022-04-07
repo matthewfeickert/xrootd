@@ -732,6 +732,8 @@ jobs:
 
     - name: Build sdist using publishing workflow
       run: |
+        export LD_LIBRARY_PATH="$(readlink -f ../venv/lib/python3.8/site-packages/pyxrootd/lib):${LD_LIBRARY_PATH}"
+        echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
         python3 -m venv ../venv
         ls -lhtra ../
         . ../venv/bin/activate
@@ -748,6 +750,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
         . ../venv/bin/activate
         python3 -m pip list
         python3 -m pip show xrootd
@@ -757,7 +760,8 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(find /home/runner/work -type d -iname "site-packages") \
+        echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
+        find $(find ../venv -type d -iname "site-packages") \
           -maxdepth 1 \
           -type d \
           -iname "*xrootd*" | xargs tree
