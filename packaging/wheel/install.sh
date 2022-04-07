@@ -10,14 +10,27 @@ startdir="$(pwd)"
 # set the respective version of python
 # replace the default BINDIR with a custom one that can be easily removed afterwards
 #    (for the python bindings we don't want to install the binaries)
-CMAKE_ARGS="-DPYPI_BUILD=TRUE -DXRDCL_LIB_ONLY=TRUE -DENABLE_PYTHON=TRUE -DCMAKE_INSTALL_PREFIX=$1/pyxrootd -DXRD_PYTHON_REQ_VERSION=$2 -DCMAKE_INSTALL_BINDIR=$startdir/xrootdbuild/bin"
+CMAKE_ARGS="-DPYPI_BUILD=TRUE \
+    -DXRDCL_LIB_ONLY=TRUE \
+    -DENABLE_PYTHON=TRUE \
+    -DCMAKE_INSTALL_PREFIX=$1/pyxrootd \
+    -DXRD_PYTHON_REQ_VERSION=$2 \
+    -DCMAKE_INSTALL_BINDIR=$startdir/xrootdbuild/bin"
+
+echo "CMAKE_ARGS: ${CMAKE_ARGS}"
 
 if [ "$5" = "true" ]; then
   source /opt/rh/devtoolset-7/enable
 fi
 
 cmake_path=$4
-$cmake_path .. $CMAKE_ARGS
+# $cmake_path .. $CMAKE_ARGS
+ls -lhtra
+echo "CURRENTLY AT: $PWD"
+${cmake_path} \
+    "${CMAKE_ARGS}" \
+    -S "${startdir}" \
+    -B xrootdbuild
 
 res=$?
 if [ "$res" -ne "0" ]; then
