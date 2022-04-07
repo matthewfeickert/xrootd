@@ -46,3 +46,10 @@ centos7-pypi:
 		--file docker/centos7-pypi/Dockerfile \
 		--build-arg BASE_IMAGE=gitlab-registry.cern.ch/linuxsupport/cc7-base:latest \
 		--tag xrootd/xrootd:issue-1668-centos
+
+ubuntu_distutils:
+	docker pull ubuntu:20.04
+	docker build . \
+		--file docker/use-distutils/Dockerfile \
+		--build-arg BASE_IMAGE=ubuntu:20.04 \
+		--tag xrootd/xrootd:issue-1668-setuptools-60-plus
