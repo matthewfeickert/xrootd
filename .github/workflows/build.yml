@@ -679,7 +679,7 @@ jobs:
         ./publish.sh
         cd ..  # Move xrootd.egg-info off PYTHONPATH
         # c.f. https://github.com/xrootd/xrootd/issues/1668
-        SETUPTOOLS_USE_DISTUTILS=stdlib python3 -m pip --verbose install xrootd/dist/xrootd-*.tar.gz
+        python3 -m pip --verbose install xrootd/dist/xrootd-*.tar.gz
         python3 -m pip list
 
     - name: Verify Python bindings
