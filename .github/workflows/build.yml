@@ -724,11 +724,6 @@ jobs:
           python3-dev \
           tree
         sudo apt-get autoclean -y
-        python3 -m venv venv
-        . venv/bin/activate
-        command -v python
-        python -m pip install --upgrade pip setuptools wheel
-        python -m pip list
 
     - name: Clone repository
       uses: actions/checkout@v3
@@ -737,10 +732,13 @@ jobs:
 
     - name: Build sdist using publishing workflow
       run: |
+        python3 -m venv ../venv
         ls -lhtra ../
         . ../venv/bin/activate
         command -v python
         command -v python3
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip list
         cp packaging/wheel/* .
         ./publish.sh
         cd ..  # Move xrootd.egg-info off PYTHONPATH
