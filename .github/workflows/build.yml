@@ -750,8 +750,10 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        export LD_LIBRARY_PATH="$(readlink -f ../venv/)/lib/python3.8/site-packages/pyxrootd/lib:${LD_LIBRARY_PATH}"
         echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
         . ../venv/bin/activate
+        command -v python
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
