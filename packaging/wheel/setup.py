@@ -62,7 +62,7 @@ def check_cmake3(path):
     args = (path, "--version")
     popen = subprocess.Popen(args, stdout=subprocess.PIPE)
     popen.wait()
-    output = popen.stdout.read().decode("utf-8") 
+    output = popen.stdout.read().decode("utf-8")
     prefix_len = len( "cmake version " )
     version = output[prefix_len:].split( '.' )
     return int( version[0] ) >= 3
@@ -117,7 +117,7 @@ def has_cxx14():
 #     return 'python'
 
 class CustomInstall(install):
-    def run(self): 
+    def run(self):
 
         py_version_short = self.config_vars['py_version_short']
         py_version_nodot = self.config_vars['py_version_nodot']
@@ -141,7 +141,7 @@ class CustomInstall(install):
         else:
           devtoolset7 = True # we only care about devtoolset7 on rhel7
           need_devtoolset = "false"
-        
+
         pyname = None
         if py_version_nodot[0] == '3':
             python_dev = pkgconfig.exists( 'python3' ) or pkgconfig.exists( 'python' + py_version_nodot );
@@ -188,7 +188,7 @@ class CustomDist(sdist):
         version = get_version()
         with open('bindings/python/VERSION', 'w') as vi:
             vi.write(version)
-    
+
     def run(self):
         self.write_version_to_file()
         sdist.run(self)
@@ -202,7 +202,7 @@ class CustomWheelGen(bdist_wheel):
 version = get_version_from_file()
 setup_requires=[ 'pkgconfig' ]
 
-setup( 
+setup(
     name             = 'xrootd',
     version          = version,
     author           = 'XRootD Developers',
@@ -215,6 +215,6 @@ setup(
     cmdclass         = {
         'install':     CustomInstall,
         'sdist':       CustomDist,
-        'bdist_wheel': CustomWheelGen
+        # 'bdist_wheel': CustomWheelGen
     }
 )

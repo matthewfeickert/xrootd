@@ -1,8 +1,8 @@
 #!/bin/bash
 
 startdir="$(pwd)"
-mkdir xrootdbuild
-cd xrootdbuild
+# mkdir xrootdbuild
+# cd xrootdbuild
 
 # build only client
 # build python bindings
@@ -24,19 +24,28 @@ if [ "$res" -ne "0" ]; then
     exit 1
 fi
 
-make -j8
+# make -j8
+cmake \
+    --build xrootdbuild \
+    --clean-first \
+    --parallel $(($(nproc) - 1))
+
 res=$?
 if [ "$res" -ne "0" ]; then
     exit 1
 fi
 
-cd src
-make install
+# cd src
+# make install
+cmake --build xrootdbuild --target install
 res=$?
 if [ "$res" -ne "0" ]; then
     exit 1
 fi
 
+tree .
+ls -lhtra
+ls -lhtra ..
 cd ../bindings/python
 
 # Determine if shutil.which is available for a modern Python package install
