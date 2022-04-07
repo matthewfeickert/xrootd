@@ -1,5 +1,6 @@
 include *.sh *.py *.in
 include CMakeLists.txt VERSION_INFO README COPYING* LICENSE
+include pyproject.toml
 
 recursive-include bindings *
 recursive-include cmake *
