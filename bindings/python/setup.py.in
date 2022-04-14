@@ -1,7 +1,14 @@
 from __future__ import print_function
 
-from setuptools._distutils.core import setup, Extension
-import sysconfig
+# setuptools._distutils added in setuptools v48.0.0
+# c.f. https://setuptools.pypa.io/en/latest/history.html#v48-0-0
+try:
+    from setuptools._distutils.core import setup, Extension
+    import sysconfig
+except ImportError:
+    from distutils.core import setup, Extension
+    from distutils import sysconfig
+
 from os import getenv, walk, path
 import subprocess
 
