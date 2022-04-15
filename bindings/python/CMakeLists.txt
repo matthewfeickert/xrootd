@@ -11,7 +11,7 @@ set(XRDCL_INSTALL  "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 
 if( PYPI_BUILD )
   # set(XRDCL_RPATH  "$ORIGIN/${CMAKE_INSTALL_LIBDIR}")
-  set(XRDCL_RPATH  "$ORIGIN/../../..")
+  set(XRDCL_RPATH  "$ORIGIN/../../../..")
 else()
   set(XRDCL_RPATH  "$ORIGIN/../../..")
 endif()
