@@ -571,6 +571,7 @@ jobs:
             python3-devel \
             python3-setuptools \
             git \
+            tree \
             cppunit-devel
         yum clean all
         python3 -m pip --no-cache-dir install wheel
@@ -624,6 +625,7 @@ jobs:
             python3-devel \
             python3-setuptools \
             git \
+            tree \
             cppunit-devel
         yum clean all
         python3 -m pip --no-cache-dir install --upgrade pip setuptools wheel
