@@ -587,6 +587,12 @@ jobs:
         python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
         python3 -m pip list
 
+    - name: Show site-pacakges layout for XRootD modules
+      run: |
+        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+          -type d \
+          -iname "*xrootd*" | xargs tree
+
     - name: Verify Python bindings
       run: |
         python3 -m pip list
@@ -635,6 +641,12 @@ jobs:
         python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
         python3 -m pip list
 
+    - name: Show site-pacakges layout for XRootD modules
+      run: |
+        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+          -type d \
+          -iname "*xrootd*" | xargs tree
+
     - name: Verify Python bindings
       run: |
         python3 -m pip list
@@ -682,6 +694,12 @@ jobs:
         python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
         python3 -m pip list
 
+    - name: Show site-pacakges layout for XRootD modules
+      run: |
+        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+          -type d \
+          -iname "*xrootd*" | xargs tree
+
     - name: Verify Python bindings
       run: |
         python3 -m pip list
@@ -689,13 +707,6 @@ jobs:
         python3 -c 'import XRootD; print(XRootD)'
         python3 -c 'import pyxrootd; print(pyxrootd)'
         python3 -c 'from XRootD import client; print(client.FileSystem("root://someserver:1094"))'
-
-    - name: Show site-pacakges layout for XRootD modules
-      run: |
-        find $(find /home/runner/.local -type d -iname "site-packages") \
-          -maxdepth 1 \
-          -type d \
-          -iname "*xrootd*" | xargs tree
 
   sdist-ubuntu-venv:
 
@@ -740,6 +751,12 @@ jobs:
         python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
         python3 -m pip list
 
+    - name: Show site-pacakges layout for XRootD modules
+      run: |
+        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+          -type d \
+          -iname "*xrootd*" | xargs tree
+
     - name: Verify Python bindings
       run: |
         . ../venv/bin/activate
@@ -749,9 +766,3 @@ jobs:
         python3 -c 'import XRootD; print(XRootD)'
         python3 -c 'import pyxrootd; print(pyxrootd)'
         python3 -c 'from XRootD import client; print(client.FileSystem("root://someserver:1094"))'
-
-    - name: Show site-pacakges layout for XRootD modules
-      run: |
-        find $(find ../venv -type d -iname "site-packages") \
-          -type d \
-          -iname "*xrootd*" | xargs tree
