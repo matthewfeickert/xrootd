@@ -13,9 +13,9 @@ if( PYPI_BUILD )
   # N.B.: CMAKE_INSTALL_LIBDIR is lib on Debian and lib64 on CentOS7
 
   # if Python wheel
-  # set(XRDCL_RPATH  "$ORIGIN/${CMAKE_INSTALL_LIBDIR}")
+  set(XRDCL_RPATH  "$ORIGIN/${CMAKE_INSTALL_LIBDIR}")
   # if Python egg
-  set(XRDCL_RPATH  "$ORIGIN/../../pyxrootd/${CMAKE_INSTALL_LIBDIR}")
+  # set(XRDCL_RPATH  "$ORIGIN/../../pyxrootd/${CMAKE_INSTALL_LIBDIR}")
 
   # ...so, how to deterimine if dealing with an egg or a wheel?
 
