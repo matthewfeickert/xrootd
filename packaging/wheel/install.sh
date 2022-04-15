@@ -67,16 +67,20 @@ ls -lhtra "${1}"
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 ls -lhtra "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')"
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
-ls -lhtra "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')/xrootd-*.egg"
-printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 
 # TODO: Remove all of the below and build a wheel using PyPA tools
 
 # N.B.: ${6} is the Python executable
+# # N.B.: When an egg is intalled the xrootd-*.egg directory is the parent directory of the package
+# ${6} -m wheel convert \
+#     --verbose \
+#     --dest-dir /tmp \
+#     "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')"
+# N.B.: ${1} is the CMake install prefix for the build library
 ${6} -m wheel convert \
     --verbose \
     --dest-dir /tmp \
-    "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')/xrootd-*.egg"
+    "${1}/xrootd-*.egg"
 # Need to replace cp3x with 'none' in the wheel name (e.g. xrootd-2022.415-py310-none-linux_x86_64.whl)
 mv /tmp/xrootd-*.whl "$(find /tmp -type f -iname "xrootd-*.whl" | sed 's/cp[0-9]*-/none-/g')"
 ${6} -m pip uninstall --yes --verbose xrootd
