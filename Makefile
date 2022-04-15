@@ -39,12 +39,12 @@ ubuntu_pypi:
 		--tag xrootd/xrootd:ubuntu-pypi \
 		--tag xrootd/xrootd:issue-1668
 
-centos7-pypi:
+centos7-sdist:
 	docker pull gitlab-registry.cern.ch/linuxsupport/cc7-base:latest
 	docker build . \
-		--file docker/centos7-pypi/Dockerfile \
+		--file docker/centos7-sdist/Dockerfile \
 		--build-arg BASE_IMAGE=gitlab-registry.cern.ch/linuxsupport/cc7-base:latest \
-		--tag xrootd/xrootd:issue-1668-centos
+		--tag xrootd/xrootd:centos7-sdist-runpath
 
 ubuntu_distutils:
 	docker pull ubuntu:20.04
