@@ -25,13 +25,21 @@ RUN apt-get update && \
     python3 -m pip --no-cache-dir install --upgrade pip setuptools wheel && \
     python3 -m pip list
 
-WORKDIR /
+WORKDIR /code
+COPY . xrootd
+WORKDIR /code/xrootd
+RUN cp packaging/wheel/* . && \
+    ./publish.sh && \
+    cd .. && \
+    python3 -m pip --verbose install --user ./xrootd/dist/xrootd-*.tar.gz && \
+    python3 -m pip list
+
 # export LD_LIBRARY_PATH="$(python3 -m site --user-site)/pyxrootd/lib:${LD_LIBRARY_PATH}"
 # ENV LD_LIBRARY_PATH="/root/.local/lib/python3.9/site-packages/pyxrootd/lib:${LD_LIBRARY_PATH}"
 # Show --user even though I don't recommend it just to show it works
-RUN python3 -m pip --no-cache-dir install --user --upgrade pip setuptools wheel && \
-    python3 -m pip install --user --verbose 'xrootd==5.4.2' && \
-    python3 -m pip list
+# RUN python3 -m pip --no-cache-dir install --user --upgrade pip setuptools wheel && \
+#     python3 -m pip install --user --verbose 'xrootd==5.4.2' && \
+#     python3 -m pip list
 
 # RUN python3 -m pip list && \
 #     python3 -m pip show xrootd && \
