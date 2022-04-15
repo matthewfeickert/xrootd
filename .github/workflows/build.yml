@@ -590,7 +590,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
+        find $(python3 -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))') \
           -type d \
           -iname "*xrootd*" | xargs tree
 
@@ -644,7 +644,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
+        find $(python3 -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))') \
           -type d \
           -iname "*xrootd*" | xargs tree
 
@@ -697,7 +697,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
+        find $(python3 -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))') \
           -type d \
           -iname "*xrootd*" | xargs tree
 
@@ -754,7 +754,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
+        find $(python3 -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))') \
           -type d \
           -iname "*xrootd*" | xargs tree
 
