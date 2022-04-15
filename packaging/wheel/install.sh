@@ -63,20 +63,20 @@ printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 ls -lhtra
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 echo "INPUT 1: ${1}"
+ls -lhtra "${1}"
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
-ls -lhtra "$(${6} -m pip show xrootd | grep Location | awk '{print $NF}')"
+ls -lhtra "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')"
+printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
+ls -lhtra "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')/xrootd-*.egg"
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 
 # TODO: Remove all of the below and build a wheel using PyPA tools
 
 # N.B.: ${6} is the Python executable
-# N.B.: The following works because `python -m pip show <package>` shows the
-# _full_ path of the .egg if the package is installed as an egg. _If_ the package
-# is installed as a wheel then Location shows the site-packages directory.
 ${6} -m wheel convert \
     --verbose \
     --dest-dir /tmp \
-    "$(${6} -m pip show xrootd | grep Location | awk '{print $NF}')"
+    "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')/xrootd-*.egg"
 # Need to replace cp3x with 'none' in the wheel name (e.g. xrootd-2022.415-py310-none-linux_x86_64.whl)
 mv /tmp/xrootd-*.whl "$(find /tmp -type f -iname "xrootd-*.whl" | sed 's/cp[0-9]*-/none-/g')"
 ${6} -m pip uninstall --yes --verbose xrootd
