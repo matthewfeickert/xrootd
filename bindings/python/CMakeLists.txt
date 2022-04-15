@@ -10,13 +10,13 @@ set(XRD_LIBDIR     "${CMAKE_BINARY_DIR}/src")
 set(XRDCL_INSTALL  "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 
 if( PYPI_BUILD )
-  # set(XRDCL_RPATH  "$ORIGIN/${CMAKE_INSTALL_LIBDIR}")
+  set(XRDCL_RPATH  "$ORIGIN/${CMAKE_INSTALL_LIBDIR}")
   # set(XRDCL_RPATH  "$ORIGIN/../lib")
   # set(XRDCL_RPATH  "$ORIGIN/../../../../..")
   # Working example has the following
   # $ objdump -x client.cpython-38-x86_64-linux-gnu.so | grep PATH
   #   RUNPATH              $ORIGIN/lib
-  set(XRDCL_RPATH  "$ORIGIN/lib")
+  # set(XRDCL_RPATH  "$ORIGIN/lib")
 else()
   set(XRDCL_RPATH  "$ORIGIN/../../..")
 endif()
