@@ -67,15 +67,16 @@ printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 
 # TODO: Remove all of the below and build a wheel using PyPA tools
 
-python -m wheel convert \
+# N.B.: ${6} is the Python executable
+${6} -m wheel convert \
     --verbose \
     --dest-dir /tmp \
-    $(python -m pip show xrootd | grep Location | awk '{print $NF}')
+    "$(${6} -m pip show xrootd | grep Location | awk '{print $NF}')"
 # Need to replace cp3x with 'none' in the wheel name (e.g. xrootd-2022.415-py310-none-linux_x86_64.whl)
 mv /tmp/xrootd-*.whl "$(ls /tmp/xrootd-*.whl | sed 's/cp[0-9]*-/none-/g')"
-python -m pip uninstall --yes --verbose xrootd
+${6} -m pip uninstall --yes --verbose xrootd
 # After uninstall there will now be an empty easy-install.path left over from egg build
-python -m pip install --upgrade /tmp/xrootd-*.whl
+${6} -m pip install --upgrade /tmp/xrootd-*.whl
 
 # # convert the egg-info into a proper dist-info
 # egginfo_path=$(ls $1/xrootd-*.egg-info)
