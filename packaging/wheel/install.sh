@@ -71,7 +71,7 @@ printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 ${6} -m wheel convert \
     --verbose \
     --dest-dir /tmp \
-    "$(${6} -m pip show xrootd | grep Location | awk '{print $NF}')"
+    "$(${6} -c 'from sysconfig import get_paths; print(get_paths()["purelib"])')/xrootd-*.egg"
 # Need to replace cp3x with 'none' in the wheel name (e.g. xrootd-2022.415-py310-none-linux_x86_64.whl)
 mv /tmp/xrootd-*.whl "$(ls /tmp/xrootd-*.whl | sed 's/cp[0-9]*-/none-/g')"
 ${6} -m pip uninstall --yes --verbose xrootd
