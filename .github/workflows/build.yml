@@ -590,7 +590,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
           -type d \
           -iname "*xrootd*" | xargs tree
 
@@ -644,7 +644,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
           -type d \
           -iname "*xrootd*" | xargs tree
 
@@ -697,7 +697,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
           -type d \
           -iname "*xrootd*" | xargs tree
 
@@ -754,7 +754,7 @@ jobs:
 
     - name: Show site-pacakges layout for XRootD modules
       run: |
-        find $(python3 -c 'from sysconfig import get_paths; print(get_paths()["purelib"])') \
+        find $(python3 -c 'import site; print(site.getsitepackages()[0])') \
           -type d \
           -iname "*xrootd*" | xargs tree
 

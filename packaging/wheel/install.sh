@@ -66,6 +66,8 @@ echo "INPUT 1: ${1}"
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 ls -lhtra "$(${6} -c 'from sysconfig import get_paths; print(get_paths()["purelib"])')"
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
+ls -lhtra "$(${6} -c 'import site; print(site.getsitepackages()[0])')"
+printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 
 # TODO: Remove all of the below and build a wheel using PyPA tools
 
@@ -73,7 +75,7 @@ printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 ${6} -m wheel convert \
     --verbose \
     --dest-dir /tmp \
-    "$(${6} -c 'from sysconfig import get_paths; print(get_paths()["purelib"])')/xrootd-*.egg"
+    "$(${6} -c 'import site; print(site.getsitepackages()[0])')/xrootd-*.egg"
 # Need to replace cp3x with 'none' in the wheel name (e.g. xrootd-2022.415-py310-none-linux_x86_64.whl)
 mv /tmp/xrootd-*.whl "$(find /tmp -type f -iname "xrootd-*.whl" | sed 's/cp[0-9]*-/none-/g')"
 ${6} -m pip uninstall --yes --verbose xrootd
