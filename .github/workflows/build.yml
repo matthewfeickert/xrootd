@@ -574,7 +574,7 @@ jobs:
             tree \
             cppunit-devel
         yum clean all
-        python3 -m pip --no-cache-dir install wheel
+        python3 -m pip --no-cache-dir install 'setuptools<48.0.0' wheel
 
     # Need to use v1 of action as image Git is too old
     - name: Clone repository now that Git is available
