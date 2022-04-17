@@ -4,17 +4,6 @@ from __future__ import print_function
 # c.f. https://setuptools.pypa.io/en/latest/history.html#v48-0-0
 try:
     from setuptools._distutils.core import setup, Extension
-    # Python 3.6.8
-    # setuptools 39.2.0 PASS
-    # setuptools 40.0.0 PASS
-    # setuptools 45.0.0 PASS
-    # setuptools 46.0.0 PASS
-    # setuptools 47.0.0 PASS
-    # setuptools 47.3.2 PASS
-    # setuptools 48.0.0 FAIL
-    # setuptools 49.0.0 FAIL
-    # setuptools 49.6.0 FAIL
-    # setuptools 59.6.0 FAIL
     # sysconfig v48.0.0+ is incompatible for Python 3.6 only, so fall back to distutils
     # FIXME: When support for Python 3.6 is dropped simplify this
     import sys
