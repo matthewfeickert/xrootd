@@ -41,10 +41,6 @@ cfg_vars["PY_CXXFLAGS"] = "${CMAKE_CXX_FLAGS}"
 # Make the RPATH relative to the python module
 cfg_vars['LDSHARED'] = cfg_vars['LDSHARED'] + " -Wl,-rpath,${XRDCL_RPATH}"
 
-print("### DEBUG\n\n\n\n\n\n\n\n\n")
-print("cfg_vars['LDSHARED']: ", cfg_vars['LDSHARED'])
-print("### DEBUG\n\n\n\n\n\n\n\n\n")
-
 sources = list()
 depends = list()
 
