@@ -68,15 +68,11 @@ printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 ls -lhtra "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')"
 printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
 
-# TODO: Remove all of the below and build a wheel using PyPA tools
-
-# N.B.: ${6} is the Python executable
-# # N.B.: When an egg is intalled the xrootd-*.egg directory is the parent directory of the package
-# ${6} -m wheel convert \
-#     --verbose \
-#     --dest-dir /tmp \
-#     "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')"
-# N.B.: ${1} is the CMake install prefix for the build library
+# Convert installed egg distribution to a wheel
+# TODO: Revise install.sh to build a wheel using PyPA tools
+# N.B.:
+# - ${6} is the Python executable
+# - ${1} is the CMake install prefix for the build library
 ${6} -m wheel convert \
     --verbose \
     --dest-dir /tmp \
@@ -86,26 +82,3 @@ mv /tmp/xrootd-*.whl "$(find /tmp -type f -iname "xrootd-*.whl" | sed 's/cp[0-9]
 ${6} -m pip uninstall --yes --verbose xrootd
 # After uninstall there will now be an empty easy-install.path left over from egg build
 ${6} -m pip install --upgrade /tmp/xrootd-*.whl
-
-# # convert the egg-info into a proper dist-info
-# egginfo_path=$(ls $1/xrootd-*.egg-info)
-# core="${egginfo_path%.*}"
-# core="${egginfo_path#$1/}"
-# sufix="${core#xrootd-*.*.*_-}"
-# core="${core%_-*}"
-# if [[ "$core" == "$sufix" ]]
-# then
-#     distinfo_path="${egginfo_path%.*}.dist-info"
-# else
-#     distinfo_path="$1/$core-$sufix"
-# fi
-# echo $distinfo_path >> /tmp/out.txt
-# mkdir $distinfo_path
-# mv $egginfo_path $distinfo_path/METADATA
-# echo -e "Wheel-Version: 1.0\nGenerator: bdist_wheel (0.35.1)\nRoot-Is-Purelib: true\nTag: py2-none-any\nTag: py3-none-any" > $distinfo_path/WHEEL
-# touch $distinfo_path/RECORD
-# distinfo_name=${distinfo_path#"$1"}
-# find $1/pyxrootd/      -type f -exec sha256sum {} \; | awk '{printf$2 ",sha256=" $1 "," ; system("stat --printf=\"%s\" "$2) ; print '\n'; }' >> $distinfo_path/RECORD
-# find $1/$distinfo_name -type f -exec sha256sum {} \; | awk '{printf$2 ",sha256=" $1 "," ; system("stat --printf=\"%s\" "$2) ; print '\n'; }' >> $distinfo_path/RECORD
-# find $1/XRootD/        -type f -exec sha256sum {} \; | awk '{printf$2 ",sha256=" $1 "," ; system("stat --printf=\"%s\" "$2) ; print '\n'; }' >> $distinfo_path/RECORD
-# find $1/pyxrootd/ -type l | awk '{print$1 ",,"}' >> $distinfo_path/RECORD
