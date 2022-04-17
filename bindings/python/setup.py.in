@@ -6,7 +6,7 @@ try:
     from setuptools._distutils.core import setup, Extension
     # sysconfig for Python 3.6 seems to have trouble
     import sys
-    if sys.version_info < (3, 7):
+    if sys.version_info < (3, 6):
         from distutils import sysconfig
     else:
         import sysconfig
