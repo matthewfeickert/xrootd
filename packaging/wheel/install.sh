@@ -80,5 +80,9 @@ ${6} -m wheel convert \
 # Need to replace cp3x with 'none' in the wheel name (e.g. xrootd-2022.415-py310-none-linux_x86_64.whl)
 mv /tmp/xrootd-*.whl "$(find /tmp -type f -iname "xrootd-*.whl" | sed 's/cp[0-9]*-/none-/g')"
 ${6} -m pip uninstall --yes --verbose xrootd
-# After uninstall there will now be an empty easy-install.path left over from egg build
+# After uninstall of egg distribution there will now be an empty easy-install.path left over from
+# the egg build, so if it is empty (not being used by any other package) remove it for tidyness
+if [ ! -s "${1}/easy-install.pth" ]; then
+    rm "${1}/easy-install.pth"
+fi
 ${6} -m pip install --upgrade /tmp/xrootd-*.whl
