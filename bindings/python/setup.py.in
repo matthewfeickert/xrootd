@@ -4,12 +4,7 @@ from __future__ import print_function
 # c.f. https://setuptools.pypa.io/en/latest/history.html#v48-0-0
 try:
     from setuptools._distutils.core import setup, Extension
-    # sysconfig for Python 3.6 seems to have trouble
-    import sys
-    if sys.version_info < (3, 6):
-        from distutils import sysconfig
-    else:
-        import sysconfig
+    import sysconfig
 except ImportError:
     from distutils.core import setup, Extension
     from distutils import sysconfig
