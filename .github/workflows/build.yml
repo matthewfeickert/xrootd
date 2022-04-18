@@ -594,8 +594,7 @@ jobs:
         . /opt/rh/devtoolset-7/enable
         cp packaging/wheel/* .
         ./publish.sh
-        cd ..  # Move xrootd.egg-info off PYTHONPATH
-        python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
+        python3 -m pip --verbose install ./dist/xrootd-*.tar.gz
         python3 -m pip list
 
     - name: Show site-pacakges layout for XRootD modules
@@ -650,8 +649,7 @@ jobs:
         . /opt/rh/devtoolset-7/enable
         cp packaging/wheel/* .
         ./publish.sh
-        cd ..  # Move xrootd.egg-info off PYTHONPATH
-        python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
+        python3 -m pip --verbose install ./dist/xrootd-*.tar.gz
         python3 -m pip list
 
     - name: Show site-pacakges layout for XRootD modules
@@ -704,8 +702,7 @@ jobs:
       run: |
         cp packaging/wheel/* .
         ./publish.sh
-        cd ..  # Move xrootd.egg-info off PYTHONPATH
-        python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
+        python3 -m pip --verbose install ./dist/xrootd-*.tar.gz
         python3 -m pip list
 
     - name: Show site-pacakges layout for XRootD modules
@@ -762,8 +759,7 @@ jobs:
         python3 -m pip install --upgrade pip setuptools wheel
         cp packaging/wheel/* .
         ./publish.sh
-        cd ..  # Move xrootd.egg-info off PYTHONPATH
-        python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz
+        python3 -m pip --verbose install ./dist/xrootd-*.tar.gz
         python3 -m pip list
 
     - name: Show site-pacakges layout for XRootD modules
