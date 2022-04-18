@@ -30,11 +30,10 @@ ENV PATH=/usr/local/venv/bin:"${PATH}"
 RUN source scl_source enable devtoolset-7 && \
     python3 -m venv /usr/local/venv && \
     . /usr/local/venv/bin/activate && \
-    python3 -m pip install --upgrade pip setuptools wheel && \
+    python3 -m pip install --upgrade 'pip>=20.0.1' setuptools wheel && \
     cp packaging/wheel/* . && \
     ./publish.sh && \
-    cd .. && \
-    python3 -m pip --verbose install ./xrootd/dist/xrootd-*.tar.gz && \
+    python3 -m pip --verbose install ./dist/xrootd-*.tar.gz && \
     python3 -m pip list
 
 RUN python -m pip list && \
@@ -42,5 +41,7 @@ RUN python -m pip list && \
     python -c 'import XRootD; print(XRootD)' && \
     python -c 'import pyxrootd; print(pyxrootd)' && \
     python -c 'from XRootD import client; print(client.FileSystem("root://someserver:1094"))'
+
+WORKDIR /
 
 SHELL [ "/usr/bin/scl", "enable", "devtoolset-7", "/bin/bash", "-c"]
