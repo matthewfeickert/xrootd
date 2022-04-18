@@ -442,6 +442,7 @@ jobs:
             rpm-build \
             tar \
             dnf-plugins-core \
+            findutils \
             git
         dnf clean all
 
