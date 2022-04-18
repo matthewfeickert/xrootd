@@ -58,27 +58,21 @@ fi
 cd $startdir
 rm -r xrootdbuild
 
-# TODO: Remove all of the below and build a wheel using PyPA tools
-
-# convert the egg-info into a proper dist-info
-egginfo_path=$(ls $1/xrootd-*.egg-info)
-core="${egginfo_path%.*}"
-core="${egginfo_path#$1/}"
-sufix="${core#xrootd-*.*.*_-}"
-core="${core%_-*}"
-if [[ "$core" == "$sufix" ]]
-then
-    distinfo_path="${egginfo_path%.*}.dist-info"
-else
-    distinfo_path="$1/$core-$sufix"
+# Convert installed egg distribution to a wheel
+# TODO: Revise install.sh to build a wheel using PyPA tools
+# N.B.:
+# - ${6} is the Python executable
+# - ${1} is the CMake install prefix for the build library
+${6} -m wheel convert \
+    --verbose \
+    --dest-dir /tmp \
+    "${1}/xrootd-*.egg"
+# Need to replace cp3x with 'none' in the wheel name (e.g. xrootd-2022.415-py310-none-linux_x86_64.whl)
+mv /tmp/xrootd-*.whl "$(find /tmp -type f -iname "xrootd-*.whl" | sed 's/cp[0-9]*-/none-/g')"
+${6} -m pip uninstall --yes --verbose xrootd
+# After uninstall of egg distribution there will now be an empty easy-install.path left over from
+# the egg build, so if it is empty (not being used by any other package) remove it for tidyness
+if [ ! -s "${1}/easy-install.pth" ]; then
+    rm "${1}/easy-install.pth"
 fi
-echo $distinfo_path >> /tmp/out.txt
-mkdir $distinfo_path
-mv $egginfo_path $distinfo_path/METADATA
-echo -e "Wheel-Version: 1.0\nGenerator: bdist_wheel (0.35.1)\nRoot-Is-Purelib: true\nTag: py2-none-any\nTag: py3-none-any" > $distinfo_path/WHEEL
-touch $distinfo_path/RECORD
-distinfo_name=${distinfo_path#"$1"}
-find $1/pyxrootd/      -type f -exec sha256sum {} \; | awk '{printf$2 ",sha256=" $1 "," ; system("stat --printf=\"%s\" "$2) ; print '\n'; }' >> $distinfo_path/RECORD
-find $1/$distinfo_name -type f -exec sha256sum {} \; | awk '{printf$2 ",sha256=" $1 "," ; system("stat --printf=\"%s\" "$2) ; print '\n'; }' >> $distinfo_path/RECORD
-find $1/XRootD/        -type f -exec sha256sum {} \; | awk '{printf$2 ",sha256=" $1 "," ; system("stat --printf=\"%s\" "$2) ; print '\n'; }' >> $distinfo_path/RECORD
-find $1/pyxrootd/ -type l | awk '{print$1 ",,"}' >> $distinfo_path/RECORD
+${6} -m pip install --upgrade /tmp/xrootd-*.whl
