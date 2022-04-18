@@ -58,16 +58,6 @@ fi
 cd $startdir
 rm -r xrootdbuild
 
-
-printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
-ls -lhtra
-printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
-echo "INPUT 1: ${1}"
-ls -lhtra "${1}"
-printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
-ls -lhtra "$(${6} -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))')"
-printf "\n\n\n\n\n#DEBUG\n\n\n\n\n"
-
 # Convert installed egg distribution to a wheel
 # TODO: Revise install.sh to build a wheel using PyPA tools
 # N.B.:
