@@ -46,6 +46,13 @@ centos7-sdist:
 		--build-arg BASE_IMAGE=gitlab-registry.cern.ch/linuxsupport/cc7-base:latest \
 		--tag xrootd/xrootd:centos7-sdist-runpath
 
+fedora-sdist:
+	docker pull fedora:35
+	docker build . \
+		--file docker/fedora-sdist/Dockerfile \
+		--build-arg BASE_IMAGE=fedora:35 \
+		--tag xrootd/xrootd:fedora-sdist-runpath
+
 ubuntu_distutils:
 	docker pull ubuntu:20.04
 	docker build . \
