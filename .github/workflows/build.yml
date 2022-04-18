@@ -80,6 +80,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -154,6 +155,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -221,6 +223,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        python2 --version
         python2 -m pip list
         python2 -m pip show xrootd
         python2 -c 'import XRootD; print(XRootD)'
@@ -284,6 +287,7 @@ jobs:
         export LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
         export PYTHON_VERSION_MINOR=$(_tmp=$(find /usr/local/lib/ -maxdepth 1 -type d -iname "python3.*") && echo ${_tmp: -3}; unset _tmp)
         export PYTHONPATH="/usr/local/lib/python${PYTHON_VERSION_MINOR}/site-packages:${PYTHONPATH}"
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -348,6 +352,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -415,6 +420,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -480,6 +486,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -544,6 +551,7 @@ jobs:
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -572,6 +580,7 @@ jobs:
             python3-devel \
             python3-setuptools \
             git \
+            tree \
             cppunit-devel
         yum clean all
         python3 -m pip --no-cache-dir install 'pip>=20.0.1' wheel
@@ -585,12 +594,18 @@ jobs:
         . /opt/rh/devtoolset-7/enable
         cp packaging/wheel/* .
         ./publish.sh
-        cd ..  # Move xrootd.egg-info off PYTHONPATH
-        python3 -m pip --verbose install xrootd/dist/xrootd-*.tar.gz
+        python3 -m pip --verbose install ./dist/xrootd-*.tar.gz
         python3 -m pip list
+
+    - name: Show site-pacakges layout for XRootD modules
+      run: |
+        find $(python3 -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))') \
+          -type d \
+          -iname "*xrootd*" | xargs tree
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
@@ -619,6 +634,7 @@ jobs:
             python3-devel \
             python3-setuptools \
             git \
+            tree \
             cppunit-devel
         yum clean all
         python3 -m pip --no-cache-dir install --upgrade pip setuptools wheel
@@ -632,12 +648,18 @@ jobs:
         . /opt/rh/devtoolset-7/enable
         cp packaging/wheel/* .
         ./publish.sh
-        cd ..  # Move xrootd.egg-info off PYTHONPATH
-        python3 -m pip --verbose install xrootd/dist/xrootd-*.tar.gz
+        python3 -m pip --verbose install ./dist/xrootd-*.tar.gz
         python3 -m pip list
+
+    - name: Show site-pacakges layout for XRootD modules
+      run: |
+        find $(python3 -c 'import XRootD; import pathlib; print(str(pathlib.Path(XRootD.__path__[0]).parent))') \
+          -type d \
+          -iname "*xrootd*" | xargs tree
 
     - name: Verify Python bindings
       run: |
+        python3 --version --version
         python3 -m pip list
         python3 -m pip show xrootd
         python3 -c 'import XRootD; print(XRootD)'
