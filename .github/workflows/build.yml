@@ -594,6 +594,7 @@ jobs:
       run: |
         cp packaging/wheel/* .
         ./publish.sh
+        ls -lhtra dist/
         python3 -m pip --verbose install --upgrade ./dist/xrootd-*.tar.gz
         python3 -m pip list
 
@@ -648,6 +649,7 @@ jobs:
       run: |
         cp packaging/wheel/* .
         ./publish.sh
+        ls -lhtra dist/
         python3 -m pip --verbose install --upgrade ./dist/xrootd-*.tar.gz
         python3 -m pip list
 
@@ -702,6 +704,7 @@ jobs:
       run: |
         cp packaging/wheel/* .
         ./publish.sh
+        ls -lhtra dist/
         python3 -m pip --verbose install --upgrade ./dist/xrootd-*.tar.gz
         python3 -m pip list
 
