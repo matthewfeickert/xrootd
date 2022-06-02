@@ -215,6 +215,6 @@ setup(
     cmdclass         = {
         'install':     CustomInstall,
         'sdist':       CustomDist,
-        'bdist_wheel': CustomWheelGen
+#         'bdist_wheel': CustomWheelGen
     }
 )
