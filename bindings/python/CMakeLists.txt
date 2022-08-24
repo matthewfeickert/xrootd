@@ -32,13 +32,13 @@ endif()
 
 configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
-string(FIND "${PIP_OPTIONS}" "--prefix" PIP_OPTIONS_PREFIX_POSITION)
-if( "${PIP_OPTIONS_PREFIX_POSITION}" EQUAL "-1" )
-  string(APPEND PIP_OPTIONS " --prefix \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}")
+string(FIND "${PIP_OPTIONS}" "--target" PIP_OPTIONS_TARGET_POSITION)
+if( "${PIP_OPTIONS_TARGET_POSITION}" EQUAL "-1" )
+  string(APPEND PIP_OPTIONS " --target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}")
 else()
   message(WARNING
-        " The pip option --prefix has been set in '${PIP_OPTIONS}' which will change"
-        " it from its default value of '--prefix \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}'."
+        " The pip option --target has been set in '${PIP_OPTIONS}' which will change"
+        " it from its default value of '--target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}'."
         " Make sure this is intentional and that you understand the effects."
         )
 endif()
@@ -87,7 +87,7 @@ if ( NOT ${VALID_PIP_EXIT_CODE} EQUAL 0 )
       RESULT_VARIABLE INSTALL_STATUS
       COMMAND /usr/bin/env ${XROOTD_PYBUILD_ENV} ${PYTHON_EXECUTABLE} ${SETUP_PY} install \
                 --verbose \
-                --prefix \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX} \
+                --target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX} \
                 ${DEB_INSTALL_ARGS}
     )
     if(NOT INSTALL_STATUS EQUAL 0)

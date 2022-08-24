@@ -141,7 +141,7 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=/usr/local/ \
             -DPYTHON_EXECUTABLE=$(command -v python3) \
             -DENABLE_TESTS=ON \
-            -DPIP_OPTIONS="--verbose --force-reinstall --prefix /usr/local/" \
+            -DPIP_OPTIONS="--verbose --force-reinstall --target /usr/local/" \
             -S xrootd \
             -B build
         cmake3 build -LH
