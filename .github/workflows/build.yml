@@ -137,11 +137,12 @@ jobs:
       run: |
         . /opt/rh/devtoolset-7/enable
         cd ..
+        _PYTHON_EXECUTABLE_VERSION="python$(${PYTHON_EXECUTABLE} --version | awk '{print $NF}' | awk '{split($0, rel, "."); print rel[1]"."rel[2]}')"
         cmake3 \
             -DCMAKE_INSTALL_PREFIX=/usr/local/ \
             -DPYTHON_EXECUTABLE=$(command -v python3) \
             -DENABLE_TESTS=ON \
-            -DPIP_OPTIONS="--verbose --force-reinstall --target /usr/local/" \
+            -DPIP_OPTIONS="--verbose --force-reinstall --target /usr/local/lib/${_PYTHON_EXECUTABLE_VERSION}/site-packages" \
             -S xrootd \
             -B build
         cmake3 build -LH
