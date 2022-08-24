@@ -32,14 +32,18 @@ endif()
 
 configure_file(${SETUP_PY_IN} ${SETUP_PY})
 
-set(_PYTHON_EXECUTABLE_VERSION "python$(${PYTHON_EXECUTABLE} --version | awk '{print $NF}' | awk '{split($0, rel, "."); print rel[1]"."rel[2]}')")
+execute_process(
+        COMMAND ${PYTHON_EXECUTABLE} --version | awk '{print $NF}' | awk '{split($0, rel, "."); print rel[1]"."rel[2]}'
+        RESULT_VARIABLE _PYTHON_EXECUTABLE_VERSION
+        OUTPUT_QUIET
+)
 string(FIND "${PIP_OPTIONS}" "--target" PIP_OPTIONS_TARGET_POSITION)
 if( "${PIP_OPTIONS_TARGET_POSITION}" EQUAL "-1" )
-  string(APPEND PIP_OPTIONS " --target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/lib/${_PYTHON_EXECUTABLE_VERSION}/site-packages")
+  string(APPEND PIP_OPTIONS " --target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/lib/python${_PYTHON_EXECUTABLE_VERSION}/site-packages")
 else()
   message(WARNING
         " The pip option --target has been set in '${PIP_OPTIONS}' which will change"
-        " it from its default value of '--target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/lib/'${_PYTHON_EXECUTABLE_VERSION}'/site-packages'."
+        " it from its default value of '--target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/lib/python'${_PYTHON_EXECUTABLE_VERSION}'/site-packages'."
         " Make sure this is intentional and that you understand the effects."
         )
 endif()
@@ -88,7 +92,7 @@ if ( NOT ${VALID_PIP_EXIT_CODE} EQUAL 0 )
       RESULT_VARIABLE INSTALL_STATUS
       COMMAND /usr/bin/env ${XROOTD_PYBUILD_ENV} ${PYTHON_EXECUTABLE} ${SETUP_PY} install \
                 --verbose \
-                --target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/lib/${_PYTHON_EXECUTABLE_VERSION}/site-packages \
+                --target \$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/lib/python${_PYTHON_EXECUTABLE_VERSION}/site-packages \
                 ${DEB_INSTALL_ARGS}
     )
     if(NOT INSTALL_STATUS EQUAL 0)
